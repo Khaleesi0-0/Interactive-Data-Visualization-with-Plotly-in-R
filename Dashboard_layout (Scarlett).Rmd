@@ -1,0 +1,33 @@
+## Creating Dashboard layouts
+
+```{r}
+install.packages("shinydashboard")
+```
+
+```{r}
+library(shinydashboard)
+
+dashboardPage(
+  dashboardHeader(),
+  dashboardSidebar(),
+  dashboardBody()
+)
+```
+
+**View Dashboard**
+
+```{r}
+## app.R ##
+library(shiny)
+library(shinydashboard)
+
+ui <- dashboardPage(
+  dashboardHeader(),
+  dashboardSidebar(),
+  dashboardBody()
+)
+
+server <- function(input, output) { }
+
+shinyApp(ui, server)
+```
