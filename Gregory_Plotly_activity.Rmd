@@ -1,0 +1,166 @@
+---
+title: "Plotly activity"
+author: "Gregory Forsberg"
+date: "2025-11-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#installing packages
+
+If you don't already have these packages installed, run this code
+```{r, warning= FALSE}
+install.packages("plotly")
+install.packages("ggplot2")
+install.packages("dplyr")
+```
+
+Run this code, Required pacakges for activity
+```{r, warning=FALSE}
+library(plotly)
+library(ggplot2)
+library(dplyr)
+```
+
+**Introduction**
+Data visualization is a very important tool in the field of Data Science. It helps people share the findings of there research/analysis with a wide variety of people from different backgrounds through effective visuals. At Macalester, the most common data viz.package we are taught in R is ggplot. This package allows us to input a data frame and turn it into a graphic where the user can specify certain aesthetic parameters to create a desired visualization. 
+
+For this activity, we will be building upon our knowledge of data visualization and learn a new skill called plotly, "an Interactive web-based data visualization" that can be used in R and python. This package allows us to take in data and turn it into a interactive visualization that can enhance the message of the analysis. Through the completion of this activity and reflection points, the hope is that you will learn a new skill that you can add to your bag of tricks. 
+
+Before begining this activity, please look through this article that covers the basics and syntax of plotting with plotly. Throughout this activity, if anything is unclear, please look back at this reference for code help.
+- https://plotly-r.com/
+
+**Section 1: Basics**
+
+For this activity, we will be using the mtcars data set that is built into r.
+```{r}
+glimpse(mtcars)
+```
+
+As mentioned above, we have commonly been taught to use ggplot to make visualizations, tt is an effective package that allows users a vast amount of options. Included below is a scatter plot using ggplot and the mtcars dataset. 
+
+```{r}
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point()+
+  labs(
+    x = "Weight (X thousand lbs)", y = "Miles per gallon",
+    title = "Fuel effiency by weight", color = "Cylinders") +
+  theme_minimal()
+```
+*reflection*
+- What are the certain parts of the ggplot call doing to make the visual?
+- What can be improved to this graph to make it more informative?
+
+Answer here:
+
+
+
+*Section 1, part b*
+
+Just like ggplot, Plotly allows us to create visualizations, but with slightly different formatting. Below are several examples of common graph types—this time using Plotly.
+
+As you run each cell, interact with the plots:
+
+Try:
+
+- Zooming in (double-click to zoom back out)
+- Hovering over points/bars
+- Thinking about what information becomes easier to see interactively
+
+#Scatter plot
+```{r}
+plot_ly(
+  data = mtcars, x = ~wt, y = ~mpg, type = "scatter", mode = "markers") %>%
+  layout(title = "Scatter Plot: Weight vs. MPG", xaxis = list(title = "Weight (thousand lbs)"), yaxis = list(title = "Miles per Gallon"))
+```
+
+
+#Histogram
+```{r}
+plot_ly(
+  data = mtcars, x = ~factor(cyl), type = "histogram") %>%
+  layout( title = "Histogram of Cylinder Count", xaxis = list(title = "Number of Cylinders"), yaxis = list(title = "Count of Cars"))
+```
+
+#Line chart
+```{r}
+mtcars_sorted <- mtcars %>% arrange(hp)
+
+plot_ly(
+  data = mtcars_sorted, x = ~hp, y = ~mpg, type = "scatter", mode = "lines") %>%
+  layout(title = "Line Plot: MPG Across Increasing Horsepower", xaxis = list(title = "Horsepower"), yaxis = list(title = "Miles per Gallon"))
+```
+
+#3d plot
+- This is a very cool one!
+```{r}
+plot_ly(
+  data = mtcars, x = ~wt, y = ~mpg, z = ~hp, color = ~factor(cyl), type = "scatter3d", mode = "markers") %>%
+  layout(
+    title = "3D Scatter Plot: Weight, MPG, and Horsepower", scene = list( xaxis = list(title = "Weight (thousand lbs)"), yaxis = list(title = "Miles per Gallon"), zaxis = list(title = "Horsepower")),
+    legend = list(title = list(text = "Cylinders")))
+```
+
+*reflection*
+- How does interactivity (hover, zoom, filtering) change the way you understand the information in these graphs compared to static ggplot visuals?
+- what types of data scenarios do you think using Plotly would add meaningful value vs. when a static ggplot might be more appropriate?
+
+Answer here:
+
+
+**Section 2: Making the graph interactive**
+
+Returning to the original ggplot scatterplot, there are two ways to convert it into an interactive Plotly visualization. 
+
+
+Approach 1. using ggplot again and letting plotly handle it. As you can see, it is the same code we used with the ggplot calls which creates this great interactive. If you hover over the points, you are able to see the what the points axis points are. 
+```{r}
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point() +
+  labs(
+    x = "Weight (X thousand lbs)",
+    y = "Miles per gallon",
+    title = "Fuel efficiency by weight",
+    color = "Cylinders"
+  ) +
+  theme_minimal()
+
+ggplotly(p)
+```
+
+Approach 2. This approach uses Plotly syntax from the start, giving more control over features like hover labels, legends, colors, and marker styling. 
+```{r}
+plot_ly(
+  data = mtcars,
+  x = ~wt,
+  y = ~mpg,
+  color = ~factor(cyl),
+  colors = "Set1",
+  type = "scatter",
+  mode = "markers",
+  marker = list(size = 10)
+) %>%
+  layout(
+    title = "Fuel efficiency by weight",
+    xaxis = list(title = "Weight (X thousand lbs)"),
+    yaxis = list(title = "Miles per gallon"),
+    legend = list(title = list(text = "Cylinders"))
+  )
+
+```
+
+This activity only introduces the basics of Plotly, but the package offers many additional tools and visualization types. We encourage you to explore further and try out different interactive features and plot options. 
+
+
+Key Takeaways:
+- Plotly uses similar concepts as ggplot but with different syntax
+- Basic plots can be created with few lines of code (its pretty easy to make it interactive!)
+- Interactivity makes it different from ggplot(hovering, zooming, and rotating to help make patterns more clear)
+- Plotly is most ideal when you want the user to explore and learn on there own a bit
+
+**AI useage**
+- AI assistance was used to improve grammar, clarity, and spelling.
+
