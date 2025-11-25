@@ -3,9 +3,11 @@ title: "plotly-Khaleesi"
 output: html_document
 date: "2025-11-25"
 ---
+
 # Installing packages
 
 If you don't already have these packages installed, run this code
+
 ```{r eval=FALSE, warning=FALSE, include=TRUE}
 install.packages("plotly")
 install.packages("ggplot2")
@@ -13,6 +15,7 @@ install.packages("dplyr")
 ```
 
 Run this code, Required pacakges for activity
+
 ```{r, warning=FALSE}
 library(plotly)
 library(ggplot2)
@@ -21,21 +24,21 @@ library(dplyr)
 
 **Introduction**
 
-Data visualization is a very important tool in the field of Data Science. It helps people share the findings of there research/analysis with a wide variety of people from different backgrounds through effective visuals. At Macalester, the most common data viz.package we are taught in R is ggplot. This package allows us to input a data frame and turn it into a graphic where the user can specify certain aesthetic parameters to create a desired visualization. 
+Data visualization is a very important tool in the field of Data Science. It helps people share the findings of there research/analysis with a wide variety of people from different backgrounds through effective visuals. At Macalester, the most common data viz.package we are taught in R is ggplot. This package allows us to input a data frame and turn it into a graphic where the user can specify certain aesthetic parameters to create a desired visualization.
 
-For this activity, we will be building upon our knowledge of data visualization and learn a new skill called plotly, "an Interactive web-based data visualization" that can be used in R and python. This package allows us to take in data and turn it into a interactive visualization that can enhance the message of the analysis. Through the completion of this activity and reflection points, the hope is that you will learn a new skill that you can add to your bag of tricks. 
+For this activity, we will be building upon our knowledge of data visualization and learn a new skill called plotly, "an Interactive web-based data visualization" that can be used in R and python. This package allows us to take in data and turn it into a interactive visualization that can enhance the message of the analysis. Through the completion of this activity and reflection points, the hope is that you will learn a new skill that you can add to your bag of tricks.
 
-Before begining this activity, please look through this article that covers the basics and syntax of plotting with plotly. Throughout this activity, if anything is unclear, please look back at this reference for code help.
-- https://plotly-r.com/
+Before begining this activity, please look through this article that covers the basics and syntax of plotting with plotly. Throughout this activity, if anything is unclear, please look back at this reference for code help. - <https://plotly-r.com/>
 
 **Section 1: Basics**
 
 For this activity, we will be using the mtcars data set that is built into r.
+
 ```{r}
 glimpse(mtcars)
 ```
 
-As mentioned above, we have commonly been taught to use ggplot to make visualizations, tt is an effective package that allows users a vast amount of options. Included below is a scatter plot using ggplot and the mtcars dataset. 
+As mentioned above, we have commonly been taught to use ggplot to make visualizations, tt is an effective package that allows users a vast amount of options. Included below is a scatter plot using ggplot and the mtcars dataset.
 
 ```{r}
 ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
@@ -48,13 +51,11 @@ ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
 
 *reflection*
 
-- What are the certain parts of the ggplot call doing to make the visual?
+-   What are the certain parts of the ggplot call doing to make the visual?
 
-- What can be improved to this graph to make it more informative?
+-   What can be improved to this graph to make it more informative?
 
 Answer here:
-
-
 
 *Section 1, part b*
 
@@ -64,28 +65,30 @@ As you run each cell, interact with the plots:
 
 Try:
 
-- Zooming in (double-click to zoom back out)
+-   Zooming in (double-click to zoom back out)
 
-- Hovering over points/bars
+-   Hovering over points/bars
 
-- Thinking about what information becomes easier to see interactively
+-   Thinking about what information becomes easier to see interactively
 
-# Scatter plot
+## Scatter plot
+
 ```{r}
 plot_ly(
   data = mtcars, x = ~wt, y = ~mpg, type = "scatter", mode = "markers") %>%
   layout(title = "Scatter Plot: Weight vs. MPG", xaxis = list(title = "Weight (thousand lbs)"), yaxis = list(title = "Miles per Gallon"))
 ```
 
+## Histogram
 
-# Histogram
 ```{r}
 plot_ly(
   data = mtcars, x = ~factor(cyl), type = "histogram") %>%
   layout( title = "Histogram of Cylinder Count", xaxis = list(title = "Number of Cylinders"), yaxis = list(title = "Count of Cars"))
 ```
 
-# Line chart
+## Line chart
+
 ```{r}
 mtcars_sorted <- mtcars %>% arrange(hp)
 
@@ -94,8 +97,10 @@ plot_ly(
   layout(title = "Line Plot: MPG Across Increasing Horsepower", xaxis = list(title = "Horsepower"), yaxis = list(title = "Miles per Gallon"))
 ```
 
-# 3d plot
-- This is a very cool one!
+## 3d plot
+
+-   This is a very cool one!
+
 ```{r}
 plot_ly(
   data = mtcars, x = ~wt, y = ~mpg, z = ~hp, color = ~factor(cyl), type = "scatter3d", mode = "markers") %>%
@@ -104,23 +109,19 @@ plot_ly(
     legend = list(title = list(text = "Cylinders")))
 ```
 
-
-
 *reflection*
 
-- How does interactivity (hover, zoom, filtering) change the way you understand the information in these graphs compared to static ggplot visuals?
+-   How does interactivity (hover, zoom, filtering) change the way you understand the information in these graphs compared to static ggplot visuals?
 
-- what types of data scenarios do you think using Plotly would add meaningful value vs. when a static ggplot might be more appropriate?
+-   what types of data scenarios do you think using Plotly would add meaningful value vs. when a static ggplot might be more appropriate?
 
 Answer here:
 
-
 **Section 2: Making the graph interactive**
 
-Returning to the original ggplot scatterplot, there are two ways to convert it into an interactive Plotly visualization. 
+Returning to the original ggplot scatterplot, there are two ways to convert it into an interactive Plotly visualization.
 
-
-Approach 1. using ggplot again and letting plotly handle it. As you can see, it is the same code we used with the ggplot calls which creates this great interactive. If you hover over the points, you are able to see the what the points axis points are. 
+Approach 1. using ggplot again and letting plotly handle it. As you can see, it is the same code we used with the ggplot calls which creates this great interactive. If you hover over the points, you are able to see the what the points axis points are.
 
 ```{r}
 p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
@@ -136,7 +137,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
 # ggplotly(p)
 ```
 
-Approach 2. This approach uses Plotly syntax from the start, giving more control over features like hover labels, legends, colors, and marker styling. 
+Approach 2. This approach uses Plotly syntax from the start, giving more control over features like hover labels, legends, colors, and marker styling.
 
 ```{r}
 plot_ly(
@@ -158,41 +159,37 @@ plot_ly(
 
 ```
 
-This activity only introduces the basics of Plotly, but the package offers many additional tools and visualization types. We encourage you to explore further and try out different interactive features and plot options. 
+This activity only introduces the basics of Plotly, but the package offers many additional tools and visualization types. We encourage you to explore further and try out different interactive features and plot options.
 
+Key Takeaways: - Plotly uses similar concepts as ggplot but with different syntax
 
-Key Takeaways:
-- Plotly uses similar concepts as ggplot but with different syntax
+-   Basic plots can be created with few lines of code (its pretty easy to make it interactive!)
 
-- Basic plots can be created with few lines of code (its pretty easy to make it interactive!)
+-   Interactivity makes it different from ggplot(hovering, zooming, and rotating to help make patterns more clear)
 
-- Interactivity makes it different from ggplot(hovering, zooming, and rotating to help make patterns more clear)
+-   Plotly is most ideal when you want the user to explore and learn on there own a bit
 
-- Plotly is most ideal when you want the user to explore and learn on there own a bit
-
-# Adding Hover Labels, Color, and Customization
+**Section 3: Adding Hover Labels, Color, and Customization**
 
 So far, we’ve used Plotly to make basic interactive plots where you can zoom and hover. But the default hover labels and colors aren’t always the most helpful.
 
 Plotly lets you:
 
-* **Customize hover labels**: decide exactly which variables appear when you hover over a point, and how they’re formatted (e.g., “Weight: 2.5, MPG: 22”).
+-   **Customize hover labels**: decide exactly which variables appear when you hover over a point, and how they’re formatted (e.g., “Weight: 2.5, MPG: 22”).
 
-* **Control color**: map color to a variable (like number of cylinders) and choose a color palette that makes groups easy to compare.
+-   **Control color**: map color to a variable (like number of cylinders) and choose a color palette that makes groups easy to compare.
 
-* **Style markers**: change size, opacity, and sometimes symbol, which helps highlight important points or avoid overplotting.
+-   **Style markers**: change size, opacity, and sometimes symbol, which helps highlight important points or avoid overplotting.
 
 This combination makes your graph feel more like a little “data app” — each hover tells a small story about that specific car.
 
----
+------------------------------------------------------------------------
 
+Here’s a customized scatterplot using `mtcars`. We’ll:
 
-Here’s a customized scatterplot using `mtcars`.
-We’ll:
-
-* Map color to `cyl` (number of cylinders)
-* Add extra info to the hover text (horsepower + gears)
-* Make markers bigger and slightly transparent
+-   Map color to `cyl` (number of cylinders)
+-   Add extra info to the hover text (horsepower + gears)
+-   Make markers bigger and slightly transparent
 
 ```{r}
 plot_ly(
@@ -223,18 +220,19 @@ plot_ly(
 
 When you hover over points now, you don’t just see numbers — you get a mini “profile” of each car.
 
----
+------------------------------------------------------------------------
 
 Exercise
 
 **Goal:** Practice customizing hover labels and styling so the plot tells a clearer story.
 
-1. Start from the example above (you can copy/paste it).
-2. Make the following **three changes**:
+1.  Start from the example above (you can copy/paste it).
 
-   * Add at least **one different variable** to the hover text (e.g., `qsec` or `carb`).
-   * Change either the **color palette** or which variable is used for `color`.
-   * Change at least one **marker property**: `size`, `opacity`, or `symbol`.
+2.  Make the following **three changes**:
+
+    -   Add at least **one different variable** to the hover text (e.g., `qsec` or `carb`).
+    -   Change either the **color palette** or which variable is used for `color`.
+    -   Change at least one **marker property**: `size`, `opacity`, or `symbol`.
 
 Use this chunk as your starting point:
 
@@ -269,32 +267,32 @@ plot_ly(
   )
 ```
 
-**Short reflection (answer in text under the chunk):**
+*Short reflection*
 
-* What did you change?
-* Which hover fields felt most useful to you, and why?
+-   What did you change?
+-   Which hover fields felt most useful to you, and why?
 
----
+Answer here:
 
-# Filter Function & Zooming 
+------------------------------------------------------------------------
+
+**Section 5: Filter Function & Zooming**
 
 Interactivity isn’t just about pretty hover labels — it’s also about **controlling which data you see and how closely you look at it**.
 
 There are two main ideas here:
 
-1. **Filtering the data before plotting**
-   Using `dplyr::filter()`, you can focus on a subset of the data (e.g., only cars with high MPG, or only 4-cylinder cars). This makes your interactive plot more targeted.
+1.  **Filtering the data before plotting** Using `dplyr::filter()`, you can focus on a subset of the data (e.g., only cars with high MPG, or only 4-cylinder cars). This makes your interactive plot more targeted.
 
-2. **Zooming and panning inside Plotly**
-   Once the plot is rendered, you can:
+2.  **Zooming and panning inside Plotly** Once the plot is rendered, you can:
 
-   * Click and drag to zoom into a region.
-   * Use toolbar buttons to pan around, zoom in/out, or reset.
-   * This helps you explore patterns that are hard to see when everything is crammed together.
+    -   Click and drag to zoom into a region.
+    -   Use toolbar buttons to pan around, zoom in/out, or reset.
+    -   This helps you explore patterns that are hard to see when everything is crammed together.
 
 Combining filtering + zooming lets you move between “big picture” and “close-up” views of your dataset.
 
----
+------------------------------------------------------------------------
 
 Example A: Filter to only 4-cylinder cars
 
@@ -339,27 +337,27 @@ plot_ly(
 
 > Try: click-and-drag to zoom into a cluster of points, then double-click to reset.
 
----
+------------------------------------------------------------------------
 
 Exercise
 
 **Goal:** Use both filtering and zooming to explore a subset of cars more deeply.
 
-1. Use `dplyr::filter()` to pick **one subset of interest**, such as:
+1.  Use `dplyr::filter()` to pick **one subset of interest**, such as:
 
-   * Cars with `mpg > 25`
-   * Cars with `hp > 150`
-   * Only 6-cylinder cars (`cyl == 6`)
-   * Only manual transmission cars (`am == 1`)
+    -   Cars with `mpg > 25`
+    -   Cars with `hp > 150`
+    -   Only 6-cylinder cars (`cyl == 6`)
+    -   Only manual transmission cars (`am == 1`)
 
-2. Make an interactive scatterplot of `wt` vs `mpg` for that subset.
+2.  Make an interactive scatterplot of `wt` vs `mpg` for that subset.
 
-3. Interact with it:
+3.  Interact with it:
 
-   * Zoom into a region.
-   * Hover over several points.
+    -   Zoom into a region.
+    -   Hover over several points.
 
-4. Write 1–2 sentences about something you saw that you might *not* have noticed in the full dataset.
+4.  Write 1–2 sentences about something you saw that you might *not* have noticed in the full dataset.
 
 Scaffolded code:
 
@@ -389,15 +387,275 @@ plot_ly(
 
 Underneath, have them answer:
 
-**Reflection:**
+*Reflection:*
 
-- What filter did you apply (in words)?
-- After zooming and hovering, what did you notice about this subset?
+-   What filter did you apply (in words)?
+-   After zooming and hovering, what did you notice about this subset?
 
+Answer here:
 
----
+------------------------------------------------------------------------
+
+**Section 6: Design Your Own Plotly Visualization**
+
+**Goal:** Now it’s your turn to design your own interactive visualization!
+
+**Task:**
+
+1.  Pick a dataset and a question that interest you.
+
+Option A: keep using mtcars
+
+```{r}
+#your_data <- mtcars
+```
+
+Option B: replace with your own dataset, e.g.:
+
+```{r}
+#your_data <- readr::read_csv("my_data.csv")
+```
+
+2.  Choose which variables to map on x, y, and color
+
+```{r, eval=FALSE}
+# TODO: change these to variables that make sense for your question
+x_var <- ~wt 
+y_var <- ~mpg 
+color_var <- ~factor(cyl)
+
+plot_ly(
+data = your_data,
+x = x_var,
+y = y_var,
+type = "___",
+mode = "___",
+color = color_var,
+marker = list() 
+%>%
+layout(
+title = "_______",
+xaxis = list(title = "______"),
+yaxis = list(title = "______")
+)
+
+```
+
+*Reflection:*
+
+-   What question were you trying to explore?
+-   What dataset and variables did you choose, and why?
+-   Did the interactive features (hover, color, zoom, etc.) help you see anything you might have missed in a static plot?
+
+Answer here:
+
+**Section 7: Putting It Together: A Mini Dashboard (Subplots)**
+
+Plotly also makes it very easy to combine multiple interactive charts into a single **dashboard-style view**. This is useful when you want to compare several patterns at once, show different summaries of the same dataset, or tell a bigger story with your data.
+
+We’ll use the function `subplot()` to place several `plot_ly()` objects in one layout.
+
+Let's build three *separate* plots, then combine them.
+
+## Example: Three plots of mtcars in one dashboard
+
+```{r}
+# 1. Scatter: weight vs. MPG, colored by cylinders
+p_scatter <- plot_ly(
+  data = mtcars,
+  x = ~wt,
+  y = ~mpg,
+  type = "scatter",
+  mode = "markers",
+  color = ~factor(cyl),
+  colors = "Set1",
+  marker = list(size = 10, opacity = 0.8),
+  text = ~paste(
+    "Model:", rownames(mtcars),
+    "<br>Weight:", wt,
+    "<br>MPG:", mpg,
+    "<br>Cylinders:", cyl
+  ),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Weight vs MPG",
+    xaxis = list(title = "Weight"),
+    yaxis = list(title = "Miles per Gallon")
+  )
+
+# 2. Boxplot: MPG by cylinder count
+p_box <- plot_ly(
+  data = mtcars,
+  x = ~factor(cyl),
+  y = ~mpg,
+  type = "box",
+  color = ~factor(cyl),
+  colors = "Set1"
+) %>%
+  layout(
+    title = "MPG Distribution by Cylinders",
+    xaxis = list(title = "Cylinders"),
+    yaxis = list(title = "MPG")
+  )
+
+# 3. Bar chart: count of cars by # of gears
+gear_counts <- mtcars %>%
+  count(gear)
+
+p_bar <- plot_ly(
+  data = gear_counts,
+  x = ~factor(gear),
+  y = ~n,
+  type = "bar"
+) %>%
+  layout(
+    title = "Number of Cars by Gears",
+    xaxis = list(title = "Gears"),
+    yaxis = list(title = "Count of cars")
+  )
+```
+
+```{r}
+# Combine them into a 2x2 dashboard (one empty cell)
+
+dashboard <-subplot(
+  p_scatter, p_box,       # first row
+  p_bar, NULL,      # second row (empty space on right)
+  nrows = 2,              # Arrange plots in 2 rows
+  
+  titleX = TRUE,
+  titleY = TRUE,
+  
+  margin = 0.05        # space between plots
+)
+
+dashboard
+```
+
+> Try: change the parameters and make it the way you like!
+
+We can further improve readability by adjusting the overall layout
+
+```{r}
+dashboard %>%
+  layout(
+    title = list(
+      text = "Dashboard: Exploring mtcars",
+      font = list(size = 22)
+    ),
+    paper_bgcolor = "white",               # background for whole dashboard
+    plot_bgcolor = "rgba(245,245,245,0.6)" # background of each subplot
+  )
+```
+
+*Reflection*
+
+-   What story or pattern does the dashboard help you see?
+-   Did placing the plots together reveal patterns you didn’t see before?
+
+Answer here:
+
+**Section 8: Linking Plots** Plotly also supports linked brushing, which means:
+
+-   When you select points in one plot, the same points are highlighted in other plots.
+
+## Example
+
+1.  First create three separate plots (p1, p2, p3), then use subplot() to place them side by side in a single dashboard.
+
+```{r}
+# Scatter plot: relationship between weight and mpg
+p1 <- plot_ly(
+  data = mtcars,
+  x = ~wt,
+  y = ~mpg,
+  type = "scatter",
+  mode = "markers",
+  color = ~factor(cyl),
+  text = ~paste("Model:", rownames(mtcars)),
+  hoverinfo = "text"
+) %>%
+  layout(title = "Weight vs MPG (colored by cylinders)")
+
+# Boxplot: MPG distribution by cylinders
+p2 <- plot_ly(
+  data = mtcars,
+  x = ~factor(cyl),
+  y = ~mpg,
+  type = "box",
+  color = ~factor(cyl)
+) %>%
+  layout(title = "MPG Distribution by Cylinders")
+
+# Histogram: distribution of car weights
+p3 <- plot_ly(
+  data = mtcars,
+  x = ~wt,
+  type = "histogram"
+) %>%
+  layout(title = "Distribution of Car Weights")
+
+subplot(p1, p2, p3, nrows = 1, margin = 0.05)
+
+```
+
+2.  Make them linked/coordinated plots using **crosstalk** package.
+
+**crosstalk** is a package that allows different Plotly plots to communicate with each other. It enables: - linked brushing (select points in one plot → highlights in others) shared filtering
+
+-   These plots now show the same dataset, but now they are linked. (If you select a group of points in one plot, the same observations will be highlighted in the others.)
+
+```{r}
+
+library(crosstalk)
+# Add a shared key to link the plots
+shared <- SharedData$new(mtcars)
+
+# Linked scatter plot
+pA <- plot_ly(
+  shared,
+  x = ~wt,
+  y = ~mpg,
+  type = "scatter",
+  mode = "markers",
+  color = ~factor(cyl)
+) %>%
+  layout(title = "Scatter: Weight vs MPG")
+
+# Linked boxplot
+pB <- plot_ly(
+  shared,
+  x = ~factor(cyl),
+  y = ~mpg,
+  type = "box",
+  color = ~factor(cyl)
+) %>%
+  layout(title = "Boxplot: MPG by Cylinders")
+
+# Linked histogram
+pC <- plot_ly(
+  shared,
+  x = ~wt,
+  type = "histogram"
+) %>%
+  layout(title = "Histogram: Weight Distribution")
+
+subplot(pA, pB, pC, nrows = 1)
+```
+
+*Reflection*
+
+-   What are some more advantages when the plots are linked?
+
+Answer here:
+
+**Section 8: Optional Challenge**
+
+Use the new skills you learned from this lesson to build your own mini interactive dashboard using a dataset you think is interesting and answer a question that is meaningful.
+
 **AI useage**
 
-- AI assistance was used to improve grammar, clarity, and spelling.
+-   AI assistance was used to improve grammar, clarity, and spelling.
 
-- AI assistance was used for formatting
+-   AI assistance was used for formatting
